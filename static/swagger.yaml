@@ -1,0 +1,1118 @@
+openapi: 3.0.0
+info:
+  title: E-Commerce API
+  description: An API for managing an E-Commerce Platform
+  version: 0.0.1
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+security:
+  - BearerAuth: []
+
+# Customers
+paths:
+  /customers/add:
+    post:
+      summary: Adds customer information.
+      description: Imports customer data into the database.
+      tags:
+        - Customers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Customer's name
+                email:
+                  type: string
+                  description: Customer's email address
+                phone:
+                  type: string
+                  description: Customer's phone number
+              example:
+                name: Jason Smith
+                email: jsmith@test.com
+                phone: 1-555-555-5555
+      parameters:
+        - in: query
+          name: Customer Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: Customer's name
+                  email:
+                    type: string
+                    description: Customer's email address
+                  phone:
+                    type: string
+                    description: Customer's phone number
+      responses:
+        "201":
+          description: The input data provided for the customer.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: ID of the Customer in the database
+                  name:
+                    type: string
+                    description: Customer's name
+                  email:
+                    type: string
+                    description: Customer's email address
+                  phone:
+                    type: string
+                    description: Customer's phone number
+                example:
+                  id: 1
+                  name: Jason Smith
+                  email: jsmith@test.com
+                  phone: 1-555-555-5555
+        "401":
+          description: Missing token.
+          content:
+            application/json:
+              example:
+                message: Token is missing
+        "400":
+          description: Validation error.
+          content:
+            application/json:
+              example:
+                invalid field: [Missing data for required field]
+
+  /customers:
+    get:
+      summary: Returns list of customers.
+      description: Returns a list of customers.
+      tags:
+        - Customers
+      responses:
+        "200":
+          description: The list of customers.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: ID of the Customer in the database
+                  name:
+                    type: string
+                    description: Customer's name
+                  email:
+                    type: string
+                    description: Customer's email address
+                  phone:
+                    type: string
+                    description: Customer's phone number
+                example:
+                  - id: 1
+                    name: Jason Smith
+                    email: jsmith@test.com
+                    phone: 1-555-555-5555
+                  - id: 2
+                    name: Jerry Watson
+                    email: jwatt@gmail.com
+                    phone: 1-555-555-1234
+        "401":
+          description: Missing token.
+          content:
+            application/json:
+              example:
+                message: Token is missing
+
+  /customers/update:
+    put:
+      summary: Updates customer information.
+      description: Updates customer data in the database.
+      tags:
+        - Customers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Customer's name
+                email:
+                  type: string
+                  description: Customer's email address
+                phone:
+                  type: string
+                  description: Customer's phone number
+              example:
+                name: Jason Smith
+                email: jsmithie@test.com
+                phone: 1-555-555-5555
+      parameters:
+        - in: query
+          name: ID
+          schema:
+            type: integer
+          required: false
+          description: ID number of the customer in the database.
+        - in: query
+          name: Customer Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: Customer's name
+                  email:
+                    type: string
+                    description: Customer's email address
+                  phone:
+                    type: string
+                    description: Customer's phone number
+      responses:
+        "201":
+          description: The input data provided for the customer.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: ID of the Customer in the database
+                  name:
+                    type: string
+                    description: Customer's name
+                  email:
+                    type: string
+                    description: Customer's email address
+                  phone:
+                    type: string
+                    description: Customer's phone number
+                example:
+                  id: 1
+                  name: Jason Smith
+                  email: jsmithie@test.com
+                  phone: 1-555-555-5555
+        "401":
+          description: Missing token.
+          content:
+            application/json:
+              example:
+                message: Token is missing
+        "400":
+          description: Validation error.
+          content:
+            application/json:
+              example:
+                invalid field: [Missing data for required field]
+
+  /customers/delete:
+    delete:
+      summary: Deletes customer information.
+      description: Deletes customer data from the database.
+      tags:
+        - Customers
+      parameters:
+        - in: query
+          name: ID
+          schema:
+            type: integer
+          required: true
+          description: ID number of the customer in the database.
+      responses:
+        "201":
+          description: A message confirming deletion.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Success message
+                example:
+                  message: Customer deleted
+        "401":
+          description: Missing token.
+          content:
+            application/json:
+              example:
+                message: Token is missing
+
+  #Employees
+  /employees/add:
+    post:
+      summary: Adds employee information.
+      description: Imports employee data into the database.
+      tags:
+        - Employees
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Employee's name
+                position:
+                  type: string
+                  description: Employee's held position
+              example:
+                name: John Craig
+                position: Head Manager
+
+      parameters:
+        - in: query
+          name: Employee Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: Customer's name
+                  position:
+                    type: string
+                    description: Customer's held position
+      responses:
+        "201":
+          description: The input data provided for the employee.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: ID of the Customer in the database
+                  name:
+                    type: string
+                    description: Customer's name
+                  position:
+                    type: string
+                    description: Employee's held position
+                example:
+                  id: 1
+                  name: John Craig
+                  phone: Head Manager
+        "401":
+          description: Missing token.
+          content:
+            application/json:
+              example:
+                message: Token is missing
+        "400":
+          description: Validation error.
+          content:
+            application/json:
+              example:
+                invalid field: [Missing data for required field]
+
+  /employees:
+    get:
+      summary: Returns list of employees.
+      description: Returns a list of employees.
+      tags:
+        - Employees
+      responses:
+        "200":
+          description: The list of employees.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: ID of the Customer in the database
+                  name:
+                    type: string
+                    description: Customer's name
+                  email:
+                    type: string
+                    description: Customer's email address
+                  phone:
+                    type: string
+                    description: Customer's phone number
+                example:
+                  - id: 1
+                    name: John Craig
+                    position: Head Manager
+                  - id: 2
+                    name: Miranda Klaus
+                    position: Store Associate
+        "401":
+          description: Missing token.
+          content:
+            application/json:
+              example:
+                message: Token is missing
+
+  # Productions
+  /productions/add:
+    post:
+      summary: Adds production information.
+      description: Imports production data into the database.
+      tags:
+        - Productions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                product_id:
+                  type: integer
+                  description: ID of the product from the database's ID list
+                quantity_produced:
+                  type: integer
+                  description: Total quantity of items produced
+                date_produced:
+                  type: string
+                  description: Date of the production's completion
+              example:
+                product_id: 1
+                quantity_produced: 10
+                date_produced: "2000-01-01"
+
+      parameters:
+        - in: query
+          name: Production Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  product_id:
+                    type: integer
+                    description: ID of the product from the database's ID list
+                  quantity_produced:
+                    type: integer
+                    description: Total quantity of items produced
+                  date_produced:
+                    type: string
+                    description: Date of the production's completion
+      responses:
+        "201":
+          description: The input data provided for the production.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: ID of the production from the database's ID list
+                  product_id:
+                    type: integer
+                    description: ID of the product from the database's ID list
+                  quantity_produced:
+                    type: integer
+                    description: Total quantity of items produced
+                  date_produced:
+                    type: string
+                    description: Date of the production's completion
+                example:
+                  id: 1
+                  product_id: 1
+                  quantity_produced: 10
+                  date_produced: "2000-01-01"
+        "401":
+          description: Missing token.
+          content:
+            application/json:
+              example:
+                message: Token is missing
+        "400":
+          description: Validation error.
+          content:
+            application/json:
+              example:
+                invalid field: [Missing data for required field]
+        "500":
+          description: Server error. Typically caused by incorrect foreign keys.
+
+  /productions:
+    get:
+      summary: Returns list of productions.
+      description: Returns a list of productions.
+      tags:
+        - Productions
+      responses:
+        "200":
+          description: The list of productions.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: ID of the production from the database's ID list
+                  product_id:
+                    type: integer
+                    description: ID of the product from the database's ID list
+                  quantity_produced:
+                    type: integer
+                    description: Total quantity of items produced
+                  date_produced:
+                    type: string
+                    description: Date of the production's completion
+                example:
+                  - id: 1
+                    product_id: 1
+                    quantity_produced: 25
+                    date_produced: "1996-11-15"
+                  - id: 2
+                    product_id: 1
+                    quantity_produced: 38
+                    date_produced: "2005-08-28"
+        "401":
+          description: Missing token.
+          content:
+            application/json:
+              example:
+                message: Token is missing
+
+  # Orders
+  /orders/add:
+    post:
+      summary: Adds order information.
+      description: Imports order data into the database.
+      tags:
+        - Orders
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                customer_id:
+                  type: integer
+                  description: ID of the customer from the database's ID list
+                product_id:
+                  type: integer
+                  description: ID of the product from the database's ID list
+                quantity:
+                  type: integer
+                  description: Total quantity of items ordered
+                total_price:
+                  type: number
+                  description: Total price of the order
+              example:
+                customer_id: 1
+                product_id: 1
+                quantity: 10
+                total_price: 5.43
+
+      parameters:
+        - in: query
+          name: Order Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  customer_id:
+                    type: integer
+                    description: ID of the customer from the database's ID list
+                  product_id:
+                    type: integer
+                    description: ID of the product from the database's ID list
+                  quantity:
+                    type: integer
+                    description: Total quantity of items ordered
+                  total_price:
+                    type: number
+                    description: Total price of the order
+      responses:
+        "201":
+          description: The input data provided for the order.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: ID of the order from the database's ID list
+                  customer_id:
+                    type: integer
+                    description: ID of the customer from the database's ID list
+                  product_id:
+                    type: integer
+                    description: ID of the product from the database's ID list
+                  quantity:
+                    type: integer
+                    description: Total quantity of items ordered
+                  total_price:
+                    type: number
+                    description: Total price of the order
+                example:
+                  id: 1
+                  customer_id: 1
+                  product_id: 1
+                  quantity: 10
+                  total_price: 5.43
+        "401":
+          description: Missing token.
+          content:
+            application/json:
+              example:
+                message: Token is missing
+        "400":
+          description: Validation error.
+          content:
+            application/json:
+              example:
+                invalid field: [Missing data for required field]
+        "500":
+          description: Server error. Typically caused by incorrect foreign keys.
+
+  /orders:
+    get:
+      summary: Returns list of orders.
+      description: Returns a list of orders in pages.
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: false
+          description: Page number to receive from the database.
+        - in: query
+          name: per_page
+          schema:
+            type: integer
+          required: false
+          description: Number of elements to be shown per page.
+      tags:
+        - Orders
+      responses:
+        "200":
+          description: The list of orders.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: ID of the order from the database's ID list
+                  customer_id:
+                    type: integer
+                    description: ID of the customer from the database's ID list
+                  product_id:
+                    type: integer
+                    description: ID of the product from the database's ID list
+                  quantity:
+                    type: integer
+                    description: Total quantity of items ordered
+                  total_price:
+                    type: number
+                    description: Total price of the order
+                example:
+                  - id: 1
+                    product_id: 1
+                    quantity_produced: 25
+                    date_produced: "1996-11-15"
+                  - id: 2
+                    product_id: 1
+                    quantity_produced: 38
+                    date_produced: "2005-08-28"
+        "401":
+          description: Missing token.
+          content:
+            application/json:
+              example:
+                message: Token is missing
+        "404":
+          description: Not found. Occurs when data is not available at the given page and per_page parameters.
+
+  # Product
+  /products/add:
+    post:
+      summary: Adds product information.
+      description: Imports product data into the database.
+      tags:
+        - Products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Name of the product
+                price:
+                  type: number
+                  description: Price of the product
+              example:
+                name: "Toaster"
+                price: 20.99
+
+      parameters:
+        - in: query
+          name: Product Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: Name of the product
+                  price:
+                    type: number
+                    description: Price of the product
+      responses:
+        "201":
+          description: The input data provided for the order.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: ID of the order from the database's ID list
+                  name:
+                    type: string
+                    description: Name of the product
+                  price:
+                    type: number
+                    description: Price of the product
+                example:
+                  id: 1
+                  name: "Toaster"
+                  price: 20.99
+        "401":
+          description: Missing token.
+          content:
+            application/json:
+              example:
+                message: Token is missing
+        "400":
+          description: Validation error.
+          content:
+            application/json:
+              example:
+                invalid field: [Missing data for required field]
+
+  /products:
+    get:
+      summary: Returns list of products.
+      description: Returns a list of products in pages.
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: false
+          description: Page number to receive from the database.
+        - in: query
+          name: per_page
+          schema:
+            type: integer
+          required: false
+          description: Number of elements to be shown per page.
+      tags:
+        - Products
+      responses:
+        "200":
+          description: The list of products.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: ID of the order from the database's ID list
+                  name:
+                    type: string
+                    description: Name of the product
+                  price:
+                    type: number
+                    description: Price of the product
+                example:
+                  - id: 1
+                    name: "Toaster"
+                    price: 20.99
+                  - id: 2
+                    name: "Plate"
+                    price: 10.50
+        "401":
+          description: Missing token.
+          content:
+            application/json:
+              example:
+                message: Token is missing
+        "404":
+          description: Not found. Occurs when data is not available at the given page and per_page parameters.
+
+  /products/update:
+    put:
+      summary: Updates product information.
+      description: Updates product data in the database.
+      tags:
+        - Products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Name of the product
+                price:
+                  type: number
+                  description: Price of the product
+              example:
+                name: "Toaster"
+                price: 20.99
+
+      parameters:
+        - in: query
+          name: ID
+          schema:
+            type: integer
+          required: false
+          description: ID number of the product in the database.
+        - in: query
+          name: Product Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: Name of the product
+                  price:
+                    type: number
+                    description: Price of the product
+      responses:
+        "201":
+          description: The input data provided for the order.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: ID of the product from the database's ID list
+                  name:
+                    type: string
+                    description: Name of the product
+                  price:
+                    type: number
+                    description: Price of the product
+                example:
+                  id: 1
+                  name: "Toaster"
+                  price: 20.99
+        "401":
+          description: Missing token.
+          content:
+            application/json:
+              example:
+                message: Token is missing
+        "400":
+          description: Validation error.
+          content:
+            application/json:
+              example:
+                invalid field: [Missing data for required field]
+
+  /products/delete:
+    delete:
+      summary: Deletes product information.
+      description: Deletes product data from the database.
+      tags:
+        - Products
+
+      parameters:
+        - in: query
+          name: ID
+          schema:
+            type: integer
+          required: true
+          description: ID number of the product in the database.
+      responses:
+        "201":
+          description: Success message for deletion.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: integer
+                    description: Message indicating successful deletion.
+                example:
+                  message: Product deleted.
+        "401":
+          description: Missing token.
+          content:
+            application/json:
+              example:
+                message: Token is missing
+
+  # Customer Accounts
+  /customeraccounts/add:
+    post:
+      summary: Adds customer account information.
+      description: Imports customer account data into the database.
+      tags:
+        - Customer Accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: Customer's account username
+                password:
+                  type: string
+                  description: Customer's account password
+                customer_id:
+                  type: integer
+                  description: Customer's ID in the database
+              example:
+                username: TestUser
+                password: EggsAndBacon
+                customer_id: 1
+      parameters:
+        - in: query
+          name: Customer Account Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                    description: Customer's account username
+                  password:
+                    type: string
+                    description: Customer's account password
+                  customer_id:
+                    type: integer
+                    description: Customer's ID in the database
+      responses:
+        "201":
+          description: The input data provided for the customer account.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: Customer's account ID
+                  username:
+                    type: string
+                    description: Customer's account username
+                  password:
+                    type: string
+                    description: Customer's account password
+                  customer_id:
+                    type: integer
+                    description: Customer's ID in the database
+                example:
+                  id: 1
+                  username: TestUser
+                  password: EggsAndBacon
+                  customer_id: 1
+        "401":
+          description: Missing token.
+          content:
+            application/json:
+              example:
+                message: Token is missing
+        "400":
+          description: Validation error.
+          content:
+            application/json:
+              example:
+                invalid field: [Missing data for required field]
+
+  /customeraccounts:
+    get:
+      summary: Returns list of customer accounts.
+      description: Returns a list of customer accounts.
+      tags:
+        - Customer Accounts
+      responses:
+        "200":
+          description: The list of customer accounts.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: Customer's account ID
+                  username:
+                    type: string
+                    description: Customer's account username
+                  password:
+                    type: string
+                    description: Customer's account password
+                  customer_id:
+                    type: integer
+                    description: Customer's ID in the database
+                example:
+                  - id: 1
+                    username: TestUser
+                    password: EggsAndBacon
+                    customer_id: 1
+                  - id: 2
+                    username: TestUser2
+                    password: WakeyWakey
+                    customer_id: 2
+        "401":
+          description: Missing token.
+          content:
+            application/json:
+              example:
+                message: Token is missing
+
+  /customeraccounts/update:
+    put:
+      summary: Updates customer account information.
+      description: Updates customer account data in the database.
+      tags:
+        - Customer Accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: Customer's account username
+                password:
+                  type: string
+                  description: Customer's account password
+                customer_id:
+                  type: integer
+                  description: Customer's ID in the database
+      parameters:
+        - in: query
+          name: ID
+          schema:
+            type: integer
+          required: false
+          description: ID number of the customer in the database.
+        - in: query
+          name: Customer Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                    description: Customer's username
+                  password:
+                    type: string
+                    description: Customer's password
+                  customer_id:
+                    type: integer
+                    description: Customer's ID in the database
+      responses:
+        "201":
+          description: The input data provided for the customer.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: ID of the Customer in the database
+                  name:
+                    type: string
+                    description: Customer's name
+                  email:
+                    type: string
+                    description: Customer's email address
+                  phone:
+                    type: string
+                    description: Customer's phone number
+                example:
+                  id: 1
+                  name: Jason Smith
+                  email: jsmithie@test.com
+                  phone: 1-555-555-5555
+        "401":
+          description: Missing token.
+          content:
+            application/json:
+              example:
+                message: Token is missing
+        "400":
+          description: Validation error.
+          content:
+            application/json:
+              example:
+                invalid field: [Missing data for required field]
+
+  /customeraccounts/delete:
+    delete:
+      summary: Deletes customer account information.
+      description: Deletes customer account data from the database.
+      tags:
+        - Customer Accounts
+      parameters:
+        - in: query
+          name: ID
+          schema:
+            type: integer
+          required: true
+          description: ID number of the customer in the database.
+      responses:
+        "201":
+          description: A message confirming deletion.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Success message
+                example:
+                  message: Account deleted
+        "401":
+          description: Missing token.
+          content:
+            application/json:
+              example:
+                message: Token is missing
