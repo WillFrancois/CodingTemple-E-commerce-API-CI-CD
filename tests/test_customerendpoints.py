@@ -40,6 +40,9 @@ class TestCustomerEndpoints(unittest.TestCase):
         response = mock_app.post('/customers/add', json=payload, headers=headers)
         self.assertEqual(response, {'email': ['Missing data for required field.'], 'phone': ['Missing data for required field.']})
 
+    def test_faulty_test(self):
+        self.assertFalse(True)
+
 
 
 if __name__ == '__main__':
