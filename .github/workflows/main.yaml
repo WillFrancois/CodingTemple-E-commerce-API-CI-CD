@@ -7,6 +7,16 @@ on:
 jobs:
   API-Tests:
     runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_ROOT_PASSWORD: CodingTemple
+          MYSQL_DATABASE: advanced_e_commerce_db
+        ports:
+          - 3306:3306
+
     steps:
       - name: Check out the code
         uses: actions/checkout@v2
