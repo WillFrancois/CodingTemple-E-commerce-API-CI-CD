@@ -6,6 +6,7 @@ from models.models import User
 
 def login_customer(username, password):
     user = (db.session.execute(db.select(User).where(User.username == username, User.password == password)).scalar_one_or_none())
+    print(user)
     role_name = user.role
     if user:
         auth_token = encode_token(user.id, role_name)
