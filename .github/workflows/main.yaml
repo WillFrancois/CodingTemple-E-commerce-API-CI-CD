@@ -32,3 +32,25 @@ jobs:
 
       - name: Run tests
         run: python -m pytest ./tests
+
+  Deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Use Python
+        uses: actions/setup-python@v2
+
+      - name: Create venv
+        run: python -m venv .env
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Deploy
+        uses: johnbeynon/render-deploy-action@v0.0.8
+        with:
+          api-key: ${{ secrets.RENDER_API_KEY }}
+          service-id: ${{ secrets.SERVICE_ID }}
