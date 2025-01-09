@@ -3,7 +3,7 @@ from flask import jsonify, request
 
 def login():
     data = request.json
-    user = User.login_customer(data["username"], data["password"])
+    user = User.login_customer(str(data["username"]), str(data["password"]))
     if user:
         return jsonify(user), 200
     else:
